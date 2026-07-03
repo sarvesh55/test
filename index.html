@@ -1,73 +1,404 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarvesh Kumar Pandey | Software Engineer</title>
 
-        header {
-            background: #0078D7;
-            color: white;
-            padding: 15px;
-            text-align: center;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        nav {
-            background: #333;
-            padding: 10px;
-            text-align: center;
-        }
+<style>
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
 
-        main {
-            padding: 30px;
-            text-align: center;
-        }
+body{
+background:#f5f7fb;
+color:#333;
+line-height:1.6;
+}
 
-        footer {
-            background: #222;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+header{
+background:linear-gradient(135deg,#005bea,#00c6fb);
+color:white;
+padding:60px 20px;
+text-align:center;
+}
+
+.profile{
+width:160px;
+height:160px;
+border-radius:50%;
+background:white;
+margin:auto;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:60px;
+font-weight:bold;
+color:#005bea;
+margin-bottom:20px;
+}
+
+header h1{
+font-size:38px;
+}
+
+header h3{
+font-weight:400;
+margin-top:10px;
+}
+
+.buttons{
+margin-top:25px;
+}
+
+.buttons a{
+display:inline-block;
+padding:12px 25px;
+margin:8px;
+background:white;
+color:#005bea;
+text-decoration:none;
+border-radius:30px;
+font-weight:600;
+transition:.3s;
+}
+
+.buttons a:hover{
+background:#222;
+color:white;
+}
+
+.container{
+width:90%;
+max-width:1200px;
+margin:auto;
+padding:50px 0;
+}
+
+.section-title{
+text-align:center;
+font-size:34px;
+margin-bottom:40px;
+color:#005bea;
+}
+
+.about{
+background:white;
+padding:30px;
+border-radius:15px;
+box-shadow:0 10px 20px rgba(0,0,0,.08);
+}
+
+.skills{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.skill{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 8px 18px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.skill:hover{
+transform:translateY(-6px);
+}
+
+.progress{
+height:8px;
+background:#ddd;
+border-radius:50px;
+margin-top:10px;
+overflow:hidden;
+}
+
+.progress span{
+display:block;
+height:100%;
+background:#005bea;
+}
+
+.timeline{
+display:flex;
+flex-direction:column;
+gap:25px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 20px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card h3{
+color:#005bea;
+margin-bottom:8px;
+}
+
+.education{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:20px;
+}
+
+.stat{
+background:#005bea;
+color:white;
+padding:30px;
+border-radius:15px;
+text-align:center;
+}
+
+.stat h2{
+font-size:42px;
+}
+
+.contact{
+text-align:center;
+}
+
+.contact p{
+margin:10px;
+font-size:18px;
+}
+
+footer{
+background:#111;
+color:white;
+text-align:center;
+padding:25px;
+margin-top:40px;
+}
+
+@media(max-width:768px){
+
+header h1{
+font-size:30px;
+}
+
+.section-title{
+font-size:28px;
+}
+
+.profile{
+width:120px;
+height:120px;
+font-size:45px;
+}
+
+}
+
+</style>
+
 </head>
+
 <body>
 
-    <header>
-        <h1>Welcome to My Website</h1>
-    </header>
+<header>
 
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Contact</a>
-    </nav>
+<div class="profile">
+SK
+</div>
 
-    <main>
-        <h2>Home Page</h2>
-        <p>This is a basic HTML home page.</p>
-        <button>Learn More</button>
-    </main>
+<h1>Sarvesh Kumar Pandey</h1>
 
-    <footer>
-        <p>&copy; 2026 My Website. All Rights Reserved.</p>
-    </footer>
+<h3>Software Engineer | .NET Developer | ASP.NET | C# | SQL Server | AWS Lambda</h3>
+
+<div class="buttons">
+<a href="#">Download Resume</a>
+<a href="mailto:sarveshcs2017@gmail.com">Email</a>
+<a href="tel:+917905591356">Call</a>
+</div>
+
+</header>
+
+<div class="container">
+
+<h2 class="section-title">About Me</h2>
+
+<div class="about">
+
+<p>
+
+Software Engineer with 4+ years of experience developing enterprise web applications using ASP.NET, C#, VB.NET, MVC, SQL Server, Bootstrap, HTML5, CSS3, JavaScript, and AWS Lambda. Experienced in healthcare, insurance, and retirement management applications.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="container">
+
+<h2 class="section-title">Technical Skills</h2>
+
+<div class="skills">
+
+<div class="skill">
+<h4>C#</h4>
+<div class="progress"><span style="width:95%"></span></div>
+</div>
+
+<div class="skill">
+<h4>ASP.NET MVC</h4>
+<div class="progress"><span style="width:92%"></span></div>
+</div>
+
+<div class="skill">
+<h4>SQL Server</h4>
+<div class="progress"><span style="width:90%"></span></div>
+</div>
+
+<div class="skill">
+<h4>VB.NET</h4>
+<div class="progress"><span style="width:90%"></span></div>
+</div>
+
+<div class="skill">
+<h4>AWS Lambda</h4>
+<div class="progress"><span style="width:80%"></span></div>
+</div>
+
+<div class="skill">
+<h4>Bootstrap</h4>
+<div class="progress"><span style="width:90%"></span></div>
+</div>
+
+</div>
+
+</div>
+
+<div class="container">
+
+<h2 class="section-title">Experience</h2>
+
+<div class="timeline">
+
+<div class="card">
+<h3>Coforge</h3>
+<p>Software Engineer</p>
+<p>Dec 2024 - Present</p>
+</div>
+
+<div class="card">
+<h3>Cognizant</h3>
+<p>Software Engineer</p>
+<p>Jul 2022 - May 2024</p>
+</div>
+
+<div class="card">
+<h3>Capgemini</h3>
+<p>Software Engineer</p>
+<p>Oct 2021 - Jul 2022</p>
+</div>
+
+<div class="card">
+<h3>Resilience Infotech</h3>
+<p>Software Engineer</p>
+<p>Mar 2021 - Oct 2021</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="container">
+
+<h2 class="section-title">Education</h2>
+
+<div class="education">
+
+<div class="card">
+<h3>M.Tech</h3>
+<p>IIT Jodhpur</p>
+</div>
+
+<div class="card">
+<h3>Integrated MCA</h3>
+<p>Birla Institute of Technology</p>
+</div>
+
+<div class="card">
+<h3>Certification</h3>
+<p>Microsoft AZ-900 Azure Fundamentals</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="container">
+
+<h2 class="section-title">Highlights</h2>
+
+<div class="stats">
+
+<div class="stat">
+<h2>4+</h2>
+<p>Years Experience</p>
+</div>
+
+<div class="stat">
+<h2>20+</h2>
+<p>Projects</p>
+</div>
+
+<div class="stat">
+<h2>10+</h2>
+<p>Technologies</p>
+</div>
+
+<div class="stat">
+<h2>100%</h2>
+<p>Commitment</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="container">
+
+<h2 class="section-title">Contact</h2>
+
+<div class="contact">
+
+<p>📞 +91 7905591356</p>
+
+<p>📧 sarveshcs2017@gmail.com</p>
+
+<p>🇮🇳 India</p>
+
+</div>
+
+</div>
+
+<footer>
+
+© 2026 Sarvesh Kumar Pandey • Professional Portfolio
+
+</footer>
 
 </body>
 </html>
