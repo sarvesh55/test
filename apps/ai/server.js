@@ -5,7 +5,7 @@ const app=express();
 app.use(cors());
 app.use(express.json());
 
-const OPENAI_API_KEY="YOUR_OPENAI_API_KEY";
+const OPENAI_API_KEY="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";
 
 app.post("/chat",async(req,res)=>{
  try{
