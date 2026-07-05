@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Application Hub</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<aside class="sidebar">
+<h2>🚀 App Hub</h2>
+<nav>
+<a href="#">Dashboard</a>
+<a href="#">Applications</a>
+<a href="#">Favorites</a>
+<a href="#">Settings</a>
+</nav>
+</aside>
+<main class="content">
+<header>
+<input id="search" placeholder="Search applications...">
+<button id="theme">🌙</button>
+</header>
+<section class="hero">
+<h1>Professional Application Hub</h1>
+<p>Responsive • APK Ready • HTML/CSS/JS</p>
+</section>
+<section class="grid" id="grid">
+<div class="card" data-name="AI Assistant" onclick="openApp('apps/ai/index.html')"><h3>🤖 AI Assistant</h3><p>Automation & Chat</p></div>
+<div class="card" data-name="HR System" onclick="openApp('apps/hr.html')"><h3>👨‍💼 HR</h3><p>Employees</p></div>
+<div class="card" data-name="Finance" onclick="openApp('apps/finance.html')"><h3>💰 Finance</h3><p>Accounts</p></div>
+<div class="card" data-name="Student" onclick="openApp('apps/student.html')"><h3>🎓 Student</h3><p>Education</p></div>
+<div class="card" data-name="CRM" onclick="openApp('apps/crm.html')"><h3>📈 CRM</h3><p>Customers</p></div>
+<div class="card" data-name="Reports" onclick="openApp('apps/reports.html')"><h3>📊 Reports</h3><p>Analytics</p></div>
+</section>
+</main>
+<script src="app.js"></script>
+</body></html>
