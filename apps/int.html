@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ABC Interior Services - Cost Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #c9a227;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+        
+        .navbar-brand { font-weight: 700; letter-spacing: 0.5px; }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary) 0%, #2c5282 100%);
+            color: white;
+            padding: 1.75rem 0;
+            margin-bottom: 1.25rem;
+            border-radius: 0 0 22px 22px;
+            box-shadow: 0 8px 25px rgba(26, 54, 93, 0.2);
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 1.25rem;
+        }
+        
+        .step-dot {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #718096;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        
+        .step-dot.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(26, 54, 93, 0.3);
+        }
+        
+        .step-dot.completed {
+            background: var(--secondary);
+            color: #1a202c;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 14px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .room-qty-card {
+            background: white;
+            border-left: 5px solid var(--secondary);
+        }
+        
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #e2e8f0;
+            background: white;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .qty-btn:hover, .qty-btn:active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .qty-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 36px;
+            text-align: center;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #4a5568;
+            margin-bottom: 0.25rem;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            padding: 0.55rem 0.8rem;
+            font-size: 0.95rem;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 0.2rem rgba(201, 162, 39, 0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #2c5282 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 0.7rem 1.4rem;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #152a4a 0%, #1a365d 100%);
+        }
+        
+        .btn-whatsapp {
+            background: #25D366;
+            border: none;
+            color: white;
+            border-radius: 12px;
+            padding: 0.75rem 1.4rem;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .btn-whatsapp:hover {
+            background: #1da851;
+            color: white;
+        }
+        
+        .btn-outline-primary {
+            border-radius: 12px;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .summary-box {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            color: white;
+            border-radius: 14px;
+            padding: 1.25rem;
+        }
+        
+        .summary-box .total-amount {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        .quotation-section {
+            display: none;
+            background: white;
+            border-radius: 14px;
+            padding: 1.25rem;
+            box-shadow: var(--card-shadow);
+            margin-top: 1rem;
+        }
+        
+        .quotation-header {
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Mobile-friendly room cards instead of table */
+        .quote-room-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 0.9rem 1rem;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .quote-room-card .room-name {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+        
+        .quote-room-card .room-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+            margin-top: 0.4rem;
+            font-size: 0.85rem;
+            color: #4a5568;
+        }
+        
+        .quote-room-card .room-amount {
+            font-weight: 700;
+            color: #1a202c;
+            font-size: 1rem;
+            margin-top: 0.35rem;
+        }
+        
+        .totals-box {
+            background: #f1f5f9;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .totals-box .row-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.3rem 0;
+            font-size: 0.95rem;
+        }
+        
+        .totals-box .grand {
+            border-top: 2px solid var(--secondary);
+            margin-top: 0.5rem;
+            padding-top: 0.6rem;
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--primary);
+        }
+        
+        .contact-banner {
+            background: linear-gradient(90deg, #c9a227 0%, #e6c35c 100%);
+            color: #1a202c;
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 1.25rem;
+            font-size: 0.95rem;
+        }
+        
+        .contact-banner a {
+            color: #1a202c;
+            text-decoration: none;
+            font-size: 1.15rem;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 1.5rem 0 1rem;
+            color: #718096;
+            font-size: 0.85rem;
+        }
+        
+        .step-content { display: none; }
+        .step-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .room-size-card {
+            background: white;
+            border-left: 5px solid var(--primary);
+            margin-bottom: 0.85rem;
+        }
+        
+        /* Desktop table (hidden on mobile) */
+        .desktop-table { display: none; }
+        
+        @media (min-width: 768px) {
+            .desktop-table { display: table; }
+            .mobile-cards { display: none; }
+            .quotation-section { padding: 1.75rem; }
+            .summary-box .total-amount { font-size: 2.1rem; }
+        }
+        
+        @media (max-width: 767px) {
+            .hero-section h1 { font-size: 1.35rem; }
+            .hero-section { padding: 1.25rem 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark no-print" style="background: var(--primary);">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-house-heart-fill me-2"></i>ABC Interior Services
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero-section no-print">
+        <div class="container text-center">
+            <h1 class="mb-1"><i class="bi bi-calculator me-2"></i>Interior Cost Calculator</h1>
+            <p class="mb-0 opacity-75 small">Step-by-step quotation for your home</p>
+        </div>
+    </div>
+
+    <div class="container px-3">
+        <!-- Step Indicator -->
+        <div class="step-indicator no-print">
+            <div class="step-dot active" id="dot1">1</div>
+            <div class="step-dot" id="dot2">2</div>
+            <div class="step-dot" id="dot3">3</div>
+            <div class="step-dot" id="dot4">4</div>
+        </div>
+
+        <!-- STEP 1: Client Details -->
+        <div class="step-content active no-print" id="step1">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title mb-3 text-primary">
+                        <i class="bi bi-person-lines-fill me-2"></i>Step 1: Client Details
+                    </h5>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">Client Name *</label>
+                            <input type="text" class="form-control" id="clientName" placeholder="Enter full name">
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" class="form-control" id="clientPhone" placeholder="9876543210">
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">Email (Optional)</label>
+                            <input type="email" class="form-control" id="clientEmail" placeholder="email@example.com">
+                        </div>
+                    </div>
+                    <div class="text-end mt-3">
+                        <button class="btn btn-primary w-100 w-md-auto" onclick="goToStep(2)">
+                            Next: Select Rooms <i class="bi bi-arrow-right ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2: How many rooms -->
+        <div class="step-content no-print" id="step2">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title mb-1 text-primary">
+                        <i class="bi bi-grid-3x3-gap me-2"></i>Step 2: How many rooms?
+                    </h5>
+                    <p class="text-muted small mb-3">Select quantity for each room type</p>
+                    
+                    <div class="row g-2" id="qtyContainer"></div>
+                    
+                    <div class="d-flex justify-content-between mt-3 gap-2">
+                        <button class="btn btn-outline-primary" onclick="goToStep(1)">
+                            <i class="bi bi-arrow-left me-1"></i> Back
+                        </button>
+                        <button class="btn btn-primary" onclick="goToStep(3)">
+                            Next: Enter Sizes <i class="bi bi-arrow-right ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3: Enter sizes -->
+        <div class="step-content no-print" id="step3">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title mb-1 text-primary">
+                        <i class="bi bi-rulers me-2"></i>Step 3: Enter Size for Each Room
+                    </h5>
+                    <p class="text-muted small mb-3">Length, Width and Rate (₹ per sq.ft)</p>
+                    
+                    <div id="sizeContainer"></div>
+                    
+                    <div class="d-flex justify-content-between mt-3 gap-2">
+                        <button class="btn btn-outline-primary" onclick="goToStep(2)">
+                            <i class="bi bi-arrow-left me-1"></i> Back
+                        </button>
+                        <button class="btn btn-primary" onclick="calculateQuotation()">
+                            <i class="bi bi-calculator me-1"></i> Calculate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 4: Result -->
+        <div class="step-content no-print" id="step4">
+            <div class="summary-box mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-0">Estimated Total</h6>
+                        <small class="opacity-75">Including 18% GST</small>
+                    </div>
+                    <div class="total-amount" id="grandTotal">₹0</div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row gap-2 mb-3">
+                <button class="btn btn-outline-primary" onclick="goToStep(3)">
+                    <i class="bi bi-arrow-left me-1"></i> Edit Sizes
+                </button>
+                <button class="btn btn-whatsapp flex-grow-1" onclick="shareToClient()">
+                    <i class="bi bi-whatsapp me-2"></i>Share to Client on WhatsApp
+                </button>
+            </div>
+        </div>
+
+        <!-- Quotation Section -->
+        <div class="quotation-section" id="quotationSection">
+            <div class="quotation-header">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                    <div>
+                        <h4 class="mb-0" style="color: var(--primary);">
+                            <i class="bi bi-house-heart-fill me-1"></i>ABC Interior Services
+                        </h4>
+                        <small class="text-muted">Professional Interior Design</small>
+                    </div>
+                    <div class="text-end">
+                        <strong>QUOTATION</strong><br>
+                        <small class="text-muted" id="quoteDate"></small><br>
+                        <small class="text-muted" id="quoteNo"></small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-6">
+                    <small class="text-muted text-uppercase">Bill To</small>
+                    <p class="mb-0 fw-semibold" id="qClientName">-</p>
+                    <p class="mb-0 small" id="qClientPhone">-</p>
+                    <p class="mb-0 small" id="qClientEmail">-</p>
+                </div>
+                <div class="col-6 text-end">
+                    <small class="text-muted text-uppercase">From</small>
+                    <p class="mb-0 fw-semibold">ABC Interior Services</p>
+                    <p class="mb-0 small">+91 98765 43210</p>
+                </div>
+            </div>
+
+            <!-- Mobile-friendly cards -->
+            <div class="mobile-cards" id="mobileCards"></div>
+
+            <!-- Desktop table -->
+            <div class="table-responsive desktop-table">
+                <table class="table table-bordered table-sm mb-0">
+                    <thead>
+                        <tr style="background:#f7fafc; color:var(--primary);">
+                            <th>#</th>
+                            <th>Room</th>
+                            <th>Size</th>
+                            <th>Area</th>
+                            <th>Rate</th>
+                            <th class="text-end">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="quoteTableBody"></tbody>
+                </table>
+            </div>
+
+            <!-- Totals -->
+            <div class="totals-box">
+                <div class="row-item">
+                    <span>Sub Total</span>
+                    <span id="qSubTotal">₹0</span>
+                </div>
+                <div class="row-item">
+                    <span>GST (18%)</span>
+                    <span id="qGST">₹0</span>
+                </div>
+                <div class="row-item grand">
+                    <span>Grand Total</span>
+                    <span id="qGrandTotal">₹0</span>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <small class="text-muted">
+                    <strong>Notes:</strong> Estimated quotation. Final cost may vary after site measurement. Valid for 15 days. 50% advance required.
+                </small>
+            </div>
+
+            <div class="contact-banner">
+                <i class="bi bi-telephone-fill me-1"></i>
+                Call us: <a href="tel:+919876543210"><strong>+91 98765 43210</strong></a>
+            </div>
+
+            <div class="text-center mt-3 no-print">
+                <button class="btn btn-whatsapp w-100" onclick="shareToClient()">
+                    <i class="bi bi-whatsapp me-2"></i>Share Quotation to Client
+                </button>
+                <button class="btn btn-outline-primary w-100 mt-2" onclick="resetAll()">
+                    <i class="bi bi-arrow-clockwise me-1"></i>New Calculation
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer no-print">
+        <div class="container">
+            <p class="mb-0">© 2025 ABC Interior Services • Ready for APK</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const roomTypes = [
+            { id: 'living', name: 'Living Room', icon: 'bi-sofa', defaultRate: 1200, max: 3 },
+            { id: 'bedroom', name: 'Bedroom', icon: 'bi-door-closed', defaultRate: 1100, max: 5 },
+            { id: 'kitchen', name: 'Kitchen', icon: 'bi-cup-hot', defaultRate: 1500, max: 2 },
+            { id: 'bathroom', name: 'Bathroom', icon: 'bi-droplet', defaultRate: 1800, max: 4 },
+            { id: 'balcony', name: 'Balcony', icon: 'bi-tree', defaultRate: 900, max: 3 },
+            { id: 'dining', name: 'Dining Area', icon: 'bi-cup-straw', defaultRate: 1000, max: 2 }
+        ];
+
+        let quantities = {};
+        roomTypes.forEach(r => quantities[r.id] = 0);
+
+        // Store last quotation data for sharing
+        let lastQuoteData = [];
+        let lastTotals = { sub: 0, gst: 0, grand: 0 };
+
+        function initQtySelectors() {
+            const container = document.getElementById('qtyContainer');
+            container.innerHTML = '';
+            
+            roomTypes.forEach(room => {
+                const col = document.createElement('div');
+                col.className = 'col-12 col-sm-6';
+                col.innerHTML = `
+                    <div class="card room-qty-card">
+                        <div class="card-body d-flex align-items-center justify-content-between py-2 px-3">
+                            <div>
+                                <i class="bi ${room.icon} me-2 text-primary"></i>
+                                <strong style="font-size:0.95rem">${room.name}</strong>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="qty-btn" onclick="changeQty('${room.id}', -1)">−</button>
+                                <span class="qty-value" id="qty-${room.id}">0</span>
+                                <button class="qty-btn" onclick="changeQty('${room.id}', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(col);
+            });
+        }
+
+        function changeQty(roomId, delta) {
+            const room = roomTypes.find(r => r.id === roomId);
+            let newVal = quantities[roomId] + delta;
+            if (newVal < 0) newVal = 0;
+            if (newVal > room.max) newVal = room.max;
+            quantities[roomId] = newVal;
+            document.getElementById(`qty-${roomId}`).textContent = newVal;
+        }
+
+        function generateSizeInputs() {
+            const container = document.getElementById('sizeContainer');
+            container.innerHTML = '';
+            let hasAny = false;
+            
+            roomTypes.forEach(room => {
+                const qty = quantities[room.id];
+                for (let i = 1; i <= qty; i++) {
+                    hasAny = true;
+                    const uniqueId = `${room.id}-${i}`;
+                    const label = qty > 1 ? `${room.name} ${i}` : room.name;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'card room-size-card';
+                    card.innerHTML = `
+                        <div class="card-body py-3">
+                            <h6 class="mb-2">
+                                <i class="bi ${room.icon} me-2 text-primary"></i>${label}
+                            </h6>
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <label class="form-label">Length (ft)</label>
+                                    <input type="number" class="form-control size-length" 
+                                           id="${uniqueId}-length" min="0" step="0.1" 
+                                           placeholder="12" data-id="${uniqueId}" data-name="${label}">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label">Width (ft)</label>
+                                    <input type="number" class="form-control size-width" 
+                                           id="${uniqueId}-width" min="0" step="0.1" 
+                                           placeholder="10" data-id="${uniqueId}">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label">Rate ₹/sq.ft</label>
+                                    <input type="number" class="form-control size-rate" 
+                                           id="${uniqueId}-rate" min="0" step="10" 
+                                           value="${room.defaultRate}" data-id="${uniqueId}">
+                                </div>
+                            </div>
+                            <div class="mt-2 small text-muted d-flex justify-content-between">
+                                <span>Area: <strong id="${uniqueId}-area">0</strong> sq.ft</span>
+                                <span>Cost: ₹<strong id="${uniqueId}-cost">0</strong></span>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                }
+            });
+            
+            if (!hasAny) {
+                container.innerHTML = `<div class="alert alert-warning text-center mb-0">Please go back and select at least one room.</div>`;
+            }
+            
+            document.querySelectorAll('.size-length, .size-width, .size-rate').forEach(input => {
+                input.addEventListener('input', updateSizePreview);
+            });
+        }
+
+        function updateSizePreview(e) {
+            const id = e.target.dataset.id;
+            const length = parseFloat(document.getElementById(`${id}-length`).value) || 0;
+            const width = parseFloat(document.getElementById(`${id}-width`).value) || 0;
+            const rate = parseFloat(document.getElementById(`${id}-rate`).value) || 0;
+            const area = length * width;
+            const cost = area * rate;
+            document.getElementById(`${id}-area`).textContent = area.toFixed(1);
+            document.getElementById(`${id}-cost`).textContent = cost.toLocaleString('en-IN', {maximumFractionDigits: 0});
+        }
+
+        function goToStep(step) {
+            if (step === 2) {
+                const name = document.getElementById('clientName').value.trim();
+                const phone = document.getElementById('clientPhone').value.trim();
+                if (!name || !phone) {
+                    alert('Please enter Client Name and Phone Number');
+                    return;
+                }
+            }
+            
+            if (step === 3) {
+                const totalRooms = Object.values(quantities).reduce((a, b) => a + b, 0);
+                if (totalRooms === 0) {
+                    alert('Please select at least one room');
+                    return;
+                }
+                generateSizeInputs();
+            }
+            
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step${step}`).classList.add('active');
+            
+            for (let i = 1; i <= 4; i++) {
+                const dot = document.getElementById(`dot${i}`);
+                dot.classList.remove('active', 'completed');
+                if (i < step) dot.classList.add('completed');
+                if (i === step) dot.classList.add('active');
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function calculateQuotation() {
+            const lengthInputs = document.querySelectorAll('.size-length');
+            let subTotal = 0;
+            let hasData = false;
+            const tableBody = document.getElementById('quoteTableBody');
+            const mobileCards = document.getElementById('mobileCards');
+            tableBody.innerHTML = '';
+            mobileCards.innerHTML = '';
+            lastQuoteData = [];
+            
+            let rowNum = 1;
+            
+            lengthInputs.forEach(input => {
+                const id = input.dataset.id;
+                const name = input.dataset.name;
+                const length = parseFloat(document.getElementById(`${id}-length`).value) || 0;
+                const width = parseFloat(document.getElementById(`${id}-width`).value) || 0;
+                const rate = parseFloat(document.getElementById(`${id}-rate`).value) || 0;
+                
+                if (length > 0 && width > 0) {
+                    hasData = true;
+                    const area = length * width;
+                    const amount = area * rate;
+                    subTotal += amount;
+                    
+                    lastQuoteData.push({ name, length, width, area, rate, amount });
+                    
+                    // Desktop table row
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${rowNum}</td>
+                        <td>${name}</td>
+                        <td>${length} × ${width} ft</td>
+                        <td>${area.toFixed(1)}</td>
+                        <td>₹${rate.toLocaleString('en-IN')}</td>
+                        <td class="text-end">₹${amount.toLocaleString('en-IN', {maximumFractionDigits: 0})}</td>
+                    `;
+                    tableBody.appendChild(row);
+                    
+                    // Mobile card
+                    const card = document.createElement('div');
+                    card.className = 'quote-room-card';
+                    card.innerHTML = `
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="room-name">${rowNum}. ${name}</span>
+                            <span class="room-amount">₹${amount.toLocaleString('en-IN', {maximumFractionDigits: 0})}</span>
+                        </div>
+                        <div class="room-details">
+                            <span>Size: ${length} × ${width} ft</span>
+                            <span>Area: ${area.toFixed(1)} sq.ft</span>
+                            <span>Rate: ₹${rate.toLocaleString('en-IN')}/sq.ft</span>
+                        </div>
+                    `;
+                    mobileCards.appendChild(card);
+                    
+                    rowNum++;
+                }
+            });
+            
+            if (!hasData) {
+                alert('Please enter Length and Width for at least one room');
+                return;
+            }
+            
+            const gst = subTotal * 0.18;
+            const grandTotal = subTotal + gst;
+            
+            lastTotals = { sub: subTotal, gst, grand: grandTotal };
+            
+            document.getElementById('grandTotal').textContent = '₹' + grandTotal.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('qSubTotal').textContent = '₹' + subTotal.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('qGST').textContent = '₹' + gst.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('qGrandTotal').textContent = '₹' + grandTotal.toLocaleString('en-IN', {maximumFractionDigits: 0});
+            
+            document.getElementById('qClientName').textContent = document.getElementById('clientName').value;
+            document.getElementById('qClientPhone').textContent = document.getElementById('clientPhone').value;
+            document.getElementById('qClientEmail').textContent = document.getElementById('clientEmail').value || '-';
+            
+            const today = new Date();
+            document.getElementById('quoteDate').textContent = today.toLocaleDateString('en-IN', {
+                day: '2-digit', month: 'short', year: 'numeric'
+            });
+            document.getElementById('quoteNo').textContent = 'ABC-' + today.getFullYear() + 
+                String(today.getMonth()+1).padStart(2,'0') + String(today.getDate()).padStart(2,'0') + 
+                '-' + Math.floor(1000 + Math.random() * 9000);
+            
+            document.getElementById('quotationSection').style.display = 'block';
+            goToStep(4);
+        }
+
+        function shareToClient() {
+            const clientName = document.getElementById('clientName').value.trim();
+            let clientPhone = document.getElementById('clientPhone').value.trim().replace(/\D/g, '');
+            
+            // Add country code if missing
+            if (clientPhone.length === 10) {
+                clientPhone = '91' + clientPhone;
+            }
+            
+            if (!clientPhone || clientPhone.length < 10) {
+                alert('Client phone number is required to share');
+                return;
+            }
+            
+            // Build professional message
+            let message = `*ABC Interior Services - Quotation*\n\n`;
+            message += `Dear ${clientName},\n\n`;
+            message += `Thank you for your interest. Please find your interior design quotation below:\n\n`;
+            
+            lastQuoteData.forEach((item, idx) => {
+                message += `*${idx + 1}. ${item.name}*\n`;
+                message += `   Size: ${item.length} × ${item.width} ft\n`;
+                message += `   Area: ${item.area.toFixed(1)} sq.ft\n`;
+                message += `   Rate: ₹${item.rate.toLocaleString('en-IN')}/sq.ft\n`;
+                message += `   Amount: ₹${item.amount.toLocaleString('en-IN', {maximumFractionDigits: 0})}\n\n`;
+            });
+            
+            message += `----------------------------\n`;
+            message += `Sub Total: ₹${lastTotals.sub.toLocaleString('en-IN', {maximumFractionDigits: 0})}\n`;
+            message += `GST (18%): ₹${lastTotals.gst.toLocaleString('en-IN', {maximumFractionDigits: 0})}\n`;
+            message += `*Grand Total: ₹${lastTotals.grand.toLocaleString('en-IN', {maximumFractionDigits: 0})}*\n`;
+            message += `----------------------------\n\n`;
+            message += `📝 This is an estimated quotation.\n`;
+            message += `✅ Valid for 15 days.\n`;
+            message += `💰 50% advance to start work.\n\n`;
+            message += `For any query or to confirm, call us:\n`;
+            message += `📞 *+91 98765 43210*\n\n`;
+            message += `Thank you!\nABC Interior Services`;
+            
+            const encoded = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${clientPhone}?text=${encoded}`;
+            
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function resetAll() {
+            document.getElementById('clientName').value = '';
+            document.getElementById('clientPhone').value = '';
+            document.getElementById('clientEmail').value = '';
+            
+            roomTypes.forEach(r => {
+                quantities[r.id] = 0;
+                const el = document.getElementById(`qty-${r.id}`);
+                if (el) el.textContent = '0';
+            });
+            
+            document.getElementById('quotationSection').style.display = 'none';
+            lastQuoteData = [];
+            goToStep(1);
+        }
+
+        document.addEventListener('DOMContentLoaded', initQtySelectors);
+    </script>
+</body>
+</html>
